@@ -166,3 +166,11 @@ if (!function_exists('hari_indo')) {
         }
     }
 }
+
+// get uri segment
+if(!function_exists('get_uri')) {
+    function get_uri()
+    {
+        return explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    }
+}

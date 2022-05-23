@@ -12,91 +12,96 @@ class Pengguna
     public function __construct()
     {
         $this->_db = new Database();
-        if (!isset($_SESSION['id_pengguna'])) {
+        if (!isset($_SESSION['nip'])) {
             redirect('Auth');
         }
     }
 
     public function index()
     {
-        $data['role'] = (session_get('type') == 1) ? 'Admin' : 'Kepala Pelaksana';
-        $data['pengguna'] = $this->_db->other_query("SELECT nama_pengguna, nama_lengkap, email, tipe FROM m_pengguna", 2);
+        $data['pengguna'] = $this->_db->other_query("SELECT t_pengguna.nip, t_pengguna.nama_lengkap, t_pengguna.jabatan, t_role.role FROM t_pengguna JOIN t_role ON t_pengguna.role = t_role.id", 2);
         view('layouts/_head');
         view('pengguna/index', $data);
         view('layouts/_foot');
     }
 
-    public function tambahPengguna()
+    public function tambah_pengguna()
     {
-        $data['role'] = (session_get('type') == 1) ? 'Admin' : 'Kepala Pelaksana';
+        $data['role'] = $this->_db->other_query('SELECT id, `role` FROM t_role', 2);
         view('layouts/_head');
-        view('pengguna/tambah_pengguna', $data);
+        view('pengguna/tambah_data', $data);
         view('layouts/_foot');
     }
-    public function prosesTambahPengguna()
+    public function proses_tambah_pengguna()
     {
         $input = post();
-        $nama_pengguna = $input['nama_pengguna'];
-        $nama_lengkap = $input['nama_lengkap'];
-        $email = $input['email'];
-        $tipe = $input['tipe'];
-        $katasandi = password_hash($input['katasandi'], PASSWORD_DEFAULT);
-        $validasi_nama_pengguna = $this->_db->get("SELECT nama_pengguna FROM m_pengguna WHERE nama_pengguna = '$nama_pengguna'");
+        $nip            = $input['nip'];
+        $nama_lengkap   = $input['nama_lengkap'];
+        $jabatan        = $input['jabatan'];
+        $role           = $input['role'];
+        $password       = password_hash($input['password'], PASSWORD_DEFAULT);
+        $validasi_nip = $this->_db->get("SELECT nip FROM t_pengguna WHERE nip = '$nip'");
 
-        if ($validasi_nama_pengguna == NULL) {
-            $insert = $this->_db->insert("INSERT INTO m_pengguna(nama_pengguna, nama_lengkap, katasandi, email, tipe, `status`) values ('$nama_pengguna', '$nama_lengkap', '$katasandi', '$email', '$tipe', 1)");
+        if ($validasi_nip == NULL) {
+            $insert = $this->_db->insert("INSERT INTO t_pengguna(nip, nama_lengkap, `password`, `role`, jabatan) values ('$nip', '$nama_lengkap', '$password', '$role', '$jabatan')");
             if ($insert) {
                 $res['status'] = 1;
-                $res['msg'] = "Data berhasil ditambahkan";
+                $res['msg'] = "Data Pengguna berhasil ditambahkan";
                 $res['page'] = "Pengguna";
             } else {
                 $res['status'] = 0;
-                $res['msg'] = "Data gagal ditambahkan";
+                $res['msg'] = "Data Pengguna gagal ditambahkan";
             }
         } else {
             $res['status'] = 0;
-            $res['msg'] = "Data gagal ditambahkan. Nama pengguna sudah digunakan";
+            $res['msg'] = "Data Pengguna gagal ditambahkan. NIP sudah digunakan";
         }
 
         echo json_encode($res);
     }
-    public function ubahPengguna($id)
+    public function ubah_pengguna($nip)
     {
-        $data['role'] = (session_get('type') == 1) ? 'Admin' : 'Kepala Pelaksana';
-        $data['pengguna'] = $this->_db->other_query("SELECT * FROM m_pengguna WHERE nama_pengguna = '$id'");
+        $data['role'] = $this->_db->other_query('SELECT id, `role` FROM t_role', 2);
+        $data['pengguna'] = $this->_db->other_query("SELECT * FROM t_pengguna WHERE nip = '$nip'");
         view('layouts/_head');
-        view('pengguna/ubah_pengguna', $data);
+        view('pengguna/ubah_data', $data);
         view('layouts/_foot');
     }
-    public function prosesUbahPengguna()
+    public function proses_ubah_pengguna()
     {
-        $input = post();
-        $nama_pengguna = $input['nama_pengguna'];
-        $nama_lengkap = $input['nama_lengkap'];
-        $email = $input['email'];
-        $tipe = $input['tipe'];
-        $katasandi = $input['katasandi'];
-        $katasandi_hash = password_hash($input['katasandi'], PASSWORD_DEFAULT);
-        if ($katasandi == NULL || $katasandi == '') {
-            $update = $this->_db->edit("UPDATE m_pengguna SET nama_lengkap = '$nama_lengkap', email = '$email', tipe = '$tipe' WHERE nama_pengguna = '$nama_pengguna'");
-        } else {
-            $update = $this->_db->edit("UPDATE m_pengguna SET nama_lengkap = '$nama_lengkap', email = '$email', tipe = '$tipe', katasandi = '$katasandi_hash' WHERE nama_pengguna = '$nama_pengguna'");
-        }
-        if ($update) {
-            $res['status'] = 1;
-            $res['msg'] = "Data berhasil dimutakhirkan";
-            $res['page'] = "Pengguna";
+        $input          = post();
+        $nip            = $input['nip'];
+        $nama_lengkap   = $input['nama_lengkap'];
+        $jabatan        = $input['jabatan'];
+        $role           = $input['role'];
+        $password       = $input['password'];
+        $password_hash  = password_hash($input['password'], PASSWORD_DEFAULT);
+        $validasi_nip = $this->_db->get("SELECT nip FROM t_pengguna WHERE nip = '$nip' AND nip != '$nip'");
+        if($validasi_nip == NULL){
+            if ($password == NULL || $password == '') {
+                $update = $this->_db->edit("UPDATE t_pengguna SET nama_lengkap = '$nama_lengkap', `role` = '$role', jabatan = '$jabatan' WHERE nip = '$nip'");
+            } else {
+                $update = $this->_db->edit("UPDATE t_pengguna SET nama_lengkap = '$nama_lengkap', `role` = '$role', jabatan = '$jabatan', `password` = '$password_hash' WHERE nip = '$nip'");
+            }
+            if ($update) {
+                $res['status'] = 1;
+                $res['msg'] = "Data berhasil diubah";
+                $res['page'] = "Pengguna";
+            } else {
+                $res['status'] = 0;
+                $res['msg'] = "Data gagal diubah";
+            }
         } else {
             $res['status'] = 0;
-            $res['msg'] = "Data gagal dimutakhirkan";
+            $res['msg'] = "Data Pengguna gagal diubah. NIP sudah digunakan";
         }
         echo json_encode($res);
     }
-    public function hapusPengguna()
+    public function hapus_pengguna()
     {
         $input = post();
         $id = $input['id'];
-        $delete = $this->_db->delete('m_pengguna', 'nama_pengguna', "'" . $id . "'");
+        $delete = $this->_db->delete('t_pengguna', 'nip', "'" . $id . "'");
         if ($delete) {
             $res['status'] = 1;
             $res['msg'] = "Data berhasil dihapus";

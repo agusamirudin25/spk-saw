@@ -5,32 +5,33 @@
 <div class="main-content">
     <div class="card">
         <div class="card-body">
-            <h4>Data Pengguna</h4>
-            <a href="<?= url('Pengguna/tambah_pengguna') ?>" class="btn btn-primary">Tambah Data</a>
+            <h4>Data Guru</h4>
+            <a href="<?= url('guru/tambah_guru') ?>" class="btn btn-primary">Tambah Data</a>
             <div class="m-t-25">
                 <table id="data-table" class="table">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>Kode</th>
                             <th>NIP</th>
                             <th>Nama Lengkap</th>
-                            <th>Jabatan</th>
-                            <th>Role</th>
+                            <th>Tempat, Tanggal Lahir</th>
+                            <th>Pendidikan</th>
+                            <th>Tanggal Masuk</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $no = 1;
-                        foreach ($pengguna as $row) : ?>
+                        <?php foreach ($guru as $row) : ?>
                             <tr>
-                                <td><?= $no++ ?></td>
+                                <td><?= $row['kode_alternatif'] ?></td>
                                 <td><?= $row['nip'] ?></td>
                                 <td><?= $row['nama_lengkap'] ?></td>
-                                <td><?= $row['jabatan'] ?></td>
-                                <td><?= $row['role'] ?></td>
+                                <td><?= $row['tempat_lahir'] . ', ' . tgl_indo($row['tanggal_lahir']) ?></td>
+                                <td><?= $row['pendidikan'] ?></td>
+                                <td><?= tgl_indo($row['tanggal_masuk']) ?></td>
                                 <td>
-                                    <a class="btn btn-primary waves-effect waves-light" href="<?= url('Pengguna/ubah_pengguna/' . $row['nip']) ?>" role="button">Ubah</a>
-                                    <a class="btn btn-danger waves-effect waves-light" href="#" onclick="delete_data('<?= $row['nip'] ?>', 'Pengguna/hapus_pengguna')" role="button">Hapus</a>
+                                    <a class="btn btn-primary waves-effect waves-light" href="<?= url('guru/ubah_guru/' . $row['kode_alternatif']) ?>" role="button">Ubah</a>
+                                    <a class="btn btn-danger waves-effect waves-light" href="#" onclick="delete_data('<?= $row['kode_alternatif'] ?>', 'guru/hapus_guru')" role="button">Hapus</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

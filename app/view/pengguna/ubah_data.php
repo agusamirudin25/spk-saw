@@ -1,4 +1,4 @@
-<div class="content-page">
+<div class="main-content">
     <!-- Start content -->
     <div class="content">
         <div class="container-fluid">
@@ -17,42 +17,43 @@
                         <div class="card-body">
                             <form autocomplete="off" id="formUbah">
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">Nama Pengguna</label>
+                                    <label for="nip" class="col-sm-2 col-form-label">NIP</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" type="text" placeholder="Masukan nama pengguna" name="nama_pengguna" id="nama_pengguna" readonly required value="<?= $pengguna->nama_pengguna ?>">
+                                        <input class="form-control" type="text" placeholder="Masukan NIP" value="<?= $pengguna->nip ?>" readonly name="nip" id="nip" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">Nama Lengkap</label>
+                                    <label for="nama_lengkap" class="col-sm-2 col-form-label">Nama Lengkap</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" type="text" placeholder="Masukan nama lengkap" name="nama_lengkap" id="nama_lengkap" required value="<?= $pengguna->nama_lengkap ?>">
+                                        <input class="form-control" type="text" placeholder="Masukan nama lengkap" value="<?= $pengguna->nama_lengkap ?>" name="nama_lengkap" id="nama_lengkap" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">Alamat Email</label>
+                                    <label for="jabatan" class="col-sm-2 col-form-label">Jabatan</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" type="email" placeholder="Masukan @email" name="email" id="email" required value="<?= $pengguna->email ?>">
+                                        <input class="form-control" type="text" placeholder="Masukan Jabatan" name="jabatan" id="jabatan" required value="<?= $pengguna->jabatan ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="example-search-input" class="col-sm-2 col-form-label">Tipe</label>
+                                    <label for="role" class="col-sm-2 col-form-label">Role</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" name="tipe" id="tipe" required>
-                                            <option value="">-Pilih Tipe-</option>
-                                            <option <?= ($pengguna->tipe == 1) ? 'selected' : null ?> value="1">Admin</option>
-                                            <option <?= ($pengguna->tipe == 2) ? 'selected' : null ?> value="2">Kepala Pelaksana</option>
+                                        <select class="form-control" name="role" id="role" required>
+                                            <option value="">-Pilih Role-</option>
+                                            <?php foreach($role as $row) : ?>
+                                            <option <?= $pengguna->role == $row['id'] ? 'selected' : null ?> value="<?= $row['id'] ?>"><?= $row['role'] ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">Katasandi</label>
+                                    <label for="password" class="col-sm-2 col-form-label">Password</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" type="password" placeholder="*************" name="katasandi" id="katasandi">
-                                        <span class="text-danger">*Kosongkan katasandi apabila tidak diubah</span>
+                                        <input class="form-control" type="password" placeholder="*************" name="password" id="password">
+                                        <small class="text-warning">Kosongkan password apabila tidak akan mengubahnya</small>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-success" name="submit">Ubah</button>
-                                <a href="<?= url('banjir') ?>" class="btn btn-danger">Kembali</a>
+                                <a href="javascript:history.back()" class="btn btn-danger">Batal</a>
 
                             </form>
                         </div>
@@ -64,16 +65,15 @@
 
     </div> <!-- content -->
 
-    <script src="<?= base_url() ?>assets/js/sweetalert2.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/jquery.dataTables.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/dataTables.bootstrap4.min.js"></script>
+    <script src="<?= base_url('assets/js/sweetalert2.all.min.js') ?>"></script>
+    <script src="<?= base_url('assets/js/helpers.js') ?>"></script>
     <script>
         $(document).ready(function() {
             $('#formUbah').submit(function(e) {
                 e.preventDefault();
                 var data = new FormData(this);
                 $.ajax({
-                    url: '<?= url(); ?>Pengguna/prosesUbahPengguna',
+                    url: '<?= url(); ?>Pengguna/proses_ubah_pengguna',
                     type: "post",
                     data: data,
                     processData: false,

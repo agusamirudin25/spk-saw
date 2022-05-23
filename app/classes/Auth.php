@@ -15,60 +15,54 @@ class Auth
 
     public function index()
     {
-        $title = 'Integrasi k-means clustering dan SIG Daerah rawan bencana alam';
-        return view('beranda', compact('title'));
-    }
-    public function login()
-    {
-        if (isset($_SESSION['id_pengguna'])) {
+        if (isset($_SESSION['nip'])) {
             redirect('Dashboard');
         }
-        $title = 'Integrasi k-means clustering dan SIG Daerah rawan bencana alam';
-
+        $title = 'Sistem Pendukung Keputusan Penilaian Kinerja Guru';
         return view('login', compact('title'));
     }
 
     public function cek_login()
     {
         $input = post($_POST);
-        $username = $input['nama_pengguna'];
-        $password = $input['katasandi'];
-        $user = $this->auth->get("SELECT * from m_pengguna WHERE nama_pengguna = '$username'");
+        $nip = $input['nip'];
+        $password = $input['password'];
+        $user = $this->auth->get("SELECT * from t_pengguna WHERE nip = '$nip'");
         if ($user) {
             if ($user->status != '1') {
-                $data['msg'] = 'Nama Pengguna atau katasandi tidak ditemukan !';
+                $data['msg'] = 'NIP atau password tidak ditemukan !';
                 $data['title'] = 'Login Failed ';
-                $data['login_status'] = 0;
+                $data['status'] = 0;
             } else {
-                if (password_verify($password, $user->katasandi)) :
-                    $id_pengguna = $user->nama_pengguna;
+                if (password_verify($password, $user->password)) :
+                    $nipPengguna = $user->nip;
                     $nama = $user->nama_lengkap;
                     $type = $user->tipe;
-
+                    
                     $data['title'] = 'Login Success';
                     $data['msg'] = 'Data ditemukan';
-                    $data['login_status'] = 1;
-                    $data['page'] = 'Dashboard/index';
-                    session_set('id_pengguna', $id_pengguna);
+                    $data['status'] = 1;
+                    $data['page'] = 'Dashboard';
+                    session_set('nip', $nipPengguna);
                     session_set('nama', $nama);
                     session_set('type', $type);
                 else :
-                    $data['msg'] = 'Nama Pengguna atau katasandi tidak ditemukan !';
+                    $data['msg'] = 'NIP atau password tidak ditemukan !';
                     $data['title'] = 'Login Failed ';
-                    $data['login_status'] = 0;
+                    $data['status'] = 0;
                 endif;
             }
         } else {
-            $data['msg'] = 'Nama Pengguna atau katasandi tidak ditemukan !';
+            $data['msg'] = 'NIP atau password tidak ditemukan !';
             $data['title'] = 'Login Failed ';
-            $data['login_status'] = 0;
+            $data['status'] = 0;
         }
 
         echo json_encode($data);
     }
     public function logout()
     {
-        session_del('id_pengguna');
+        session_del('nip');
         session_del('nama');
         session_del('type');
         session_destroy();

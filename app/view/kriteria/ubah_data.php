@@ -1,11 +1,11 @@
-<div class="content-page">
+<div class="main-content">
     <!-- Start content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">Tambah Pengguna</h4>
+                        <h4 class="page-title">Ubah Data Kriteria</h4>
                     </div>
                 </div>
 
@@ -15,43 +15,37 @@
                 <div class="col-12">
                     <div class="card m-b-20">
                         <div class="card-body">
-                            <form autocomplete="off" id="formTambah">
+                            <form autocomplete="off" id="formUbah">
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">Nama Pengguna</label>
+                                    <label for="kode_kriteria" class="col-sm-2 col-form-label">Kode</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" type="text" placeholder="Masukan nama pengguna" name="nama_pengguna" id="nama_pengguna" required>
+                                        <input class="form-control" type="text" readonly value="<?= $kriteria->kode_kriteria ?>" name="kode_kriteria" id="kode_kriteria" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">Nama Lengkap</label>
+                                    <label for="nama_kriteria" class="col-sm-2 col-form-label">Nama Kriteria</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" type="text" placeholder="Masukan nama lengkap" name="nama_lengkap" id="nama_lengkap" required>
+                                        <input class="form-control" type="text" placeholder="Masukan Nama Kriteria" value="<?= $kriteria->nama_kriteria ?>" name="nama_kriteria" id="nama_kriteria" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">Alamat Email</label>
-                                    <div class="col-sm-10">
-                                        <input class="form-control" type="email" placeholder="Masukan @email" name="email" id="email" required>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="example-search-input" class="col-sm-2 col-form-label">Tipe</label>
+                                    <label for="tipe" class="col-sm-2 col-form-label">Tipe</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" name="tipe" id="tipe" required>
-                                            <option value="">-Pilih Tipe-</option>
-                                            <option value="1">Admin</option>
-                                            <option value="2">Kepala Pelaksana</option>
+                                            <?php foreach($tipe as $row) : ?>
+                                                <option <?= $kriteria->tipe == $row ? 'selected' : null ?> value="<?= $row ?>"><?= $row ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">Katasandi</label>
+                                    <label for="bobot" class="col-sm-2 col-form-label">Bobot</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" type="password" placeholder="*************" name="katasandi" id="katasandi" required>
+                                        <input class="form-control" type="number" value="<?= $kriteria->bobot ?>" placeholder="Masukan Bobot" name="bobot" id="bobot" required>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-success" name="submit">Tambah</button>
-                                <a href="<?= url('Pengguna') ?>" class="btn btn-danger">Kembali</a>
+                                <button type="submit" class="btn btn-success" name="submit">Ubah</button>
+                                <a href="javascript:history.back()" class="btn btn-danger">Batal</a>
 
                             </form>
                         </div>
@@ -63,16 +57,15 @@
 
     </div> <!-- content -->
 
-    <script src="<?= base_url() ?>assets/js/sweetalert2.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/jquery.dataTables.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/dataTables.bootstrap4.min.js"></script>
+    <script src="<?= base_url('assets/js/sweetalert2.all.min.js') ?>"></script>
+    <script src="<?= base_url('assets/js/helpers.js') ?>"></script>
     <script>
         $(document).ready(function() {
-            $('#formTambah').submit(function(e) {
+            $('#formUbah').submit(function(e) {
                 e.preventDefault();
                 var data = new FormData(this);
                 $.ajax({
-                    url: '<?= url(); ?>Pengguna/prosesTambahPengguna',
+                    url: '<?= url(); ?>kriteria/proses_ubah_kriteria',
                     type: "post",
                     data: data,
                     processData: false,

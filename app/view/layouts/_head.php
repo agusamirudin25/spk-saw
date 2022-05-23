@@ -2,126 +2,169 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>STMIK HORIZON KARAWANG</title>
-    <meta content="Admin Dashboard" name="description" />
-    <meta content="Agus Amirudin" name="author" />
-    <link rel="shortcut icon" href="<?= asset() ?>assets/images/kharisma.png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sistem Pendukung Keputusan Penilaian Kinerja Guru</title>
 
-    <link href="<?= asset() ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="<?= asset() ?>assets/css/metismenu.min.css" rel="stylesheet" type="text/css">
-    <link href="<?= asset() ?>assets/css/icons.css" rel="stylesheet" type="text/css">
-    <link href="<?= asset() ?>assets/css/style.css" rel="stylesheet" type="text/css">
-    <link href="<?= asset() ?>assets/css/sweetalert2.css" rel="stylesheet" type="text/css">
-    <link href="<?= asset() ?>assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <!-- Responsive datatable examples -->
-    <link href="<?= asset() ?>assets/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <script src="<?= asset() ?>assets/js/jquery.min.js"></script>
-    <script src="<?= asset() ?>assets/js/apexchart.min.js"></script>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="<?= base_url('') ?>assets/images/logo/favicon.png">
+
+    <!-- Core css -->
+    <link href="<?= base_url('') ?>assets/css/app.min.css" rel="stylesheet" />
+     <!-- Core Vendors JS -->
+    <script src="<?= base_url('') ?>assets/js/vendors.min.js"></script>
+
+    <!-- Core JS -->
+    <script src="<?= base_url('') ?>assets/js/app.min.js"></script>
 
 </head>
 
 <body>
-
-    <!-- Begin page -->
-    <div id="wrapper">
-
-        <!-- Top Bar Start -->
-        <div class="topbar">
-
-            <!-- LOGO -->
-            <div class="topbar-left">
-                <a href="<?= base_url() ?>" class="logo">
-                    <span>
-                        <img src="<?= asset() ?>assets/images/kharisma.png" alt="" height="50">
-                    </span>
-                    <i>
-                        <img src="<?= asset() ?>assets/images/kharisma.png" alt="" height="22">
-                    </i>
-                </a>
-            </div>
-
-            <nav class="navbar-custom">
-
-                <ul class="navbar-right d-flex list-inline float-right mb-0">
-
-                    <li class="dropdown notification-list">
-                        <div class="dropdown notification-list nav-pro-img">
-                            <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <img src="<?= asset() ?>assets/images/directory-bg.jpg" alt="user" class="rounded-circle">
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
-                                <a class="dropdown-item text-danger" href="<?= base_url() ?>/Auth/logout"><i class="mdi mdi-power text-danger"></i> Logout</a>
-                            </div>
-                        </div>
-                    </li>
-
-                </ul>
-
-                <ul class="list-inline menu-left mb-0">
-                    <li class="float-left">
-                        <button class="button-menu-mobile open-left waves-effect">
-                            <i class="mdi mdi-menu"></i>
-                        </button>
-                    </li>
-                </ul>
-
-            </nav>
-
-        </div>
-        <!-- Top Bar End -->
-
-        <!-- ========== Left Sidebar Start ========== -->
-        <div class="left side-menu">
-            <div class="slimscroll-menu" id="remove-scroll">
-
-                <!--- Sidemenu -->
-                <div id="sidebar-menu">
-                    <!-- Left Menu Start -->
-                    <ul class="metismenu" id="side-menu">
-                        <li class="menu-title">Main</li>
-                        <li>
-                            <a href="<?= base_url() ?>Dashboard" class="waves-effect">
-                                <i class="mdi mdi-view-dashboard"></i><span> Dashboard </span>
-                            </a>
-                        </li>
-                        <?php if (session_get('type') == 1) : ?>
-                            <li>
-                                <a href="<?= base_url() ?>Pengguna" class="waves-effect">
-                                    <i class="mdi mdi-account-settings-variant"></i><span> Pengguna </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-chart-areaspline"></i><span> Data Bencana <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                                <ul class="submenu">
-                                    <li><a href="<?= base_url() ?>banjir">Banjir</a></li>
-                                    <li><a href="<?= base_url() ?>GempaBumi">Gempa Bumi</a></li>
-                                    <li><a href="<?= base_url() ?>TanahLongsor">Tanah Longsor</a></li>
-                                </ul>
-                            </li>
-                        <?php endif; ?>
-                        <li>
-                            <a href="<?= base_url() ?>Wilayah" class="waves-effect"><i class="mdi mdi-map-marker"></i><span> Wilayah </span></a>
-                        </li>
-                        <li>
-                            <a href="<?= base_url() ?>Dataset" class="waves-effect"><i class="mdi mdi-calendar-check"></i><span> Dataset Bencana </span></a>
-                        </li>
-                        <li>
-                            <a href="<?= base_url() ?>Clustering" class="waves-effect"><i class="mdi mdi-apps"></i><span> Clustering </span></a>
-                        </li>
-                        <li>
-                            <a href="<?= base_url() ?>Auth/logout" class="waves-effect"><i class="mdi mdi-logout"></i><span> Logout </span></a>
-                        </li>
-
-                    </ul>
-
+    <div class="app">
+        <div class="layout">
+            <!-- Header START -->
+            <div class="header">
+                <div class="logo logo-dark">
+                    <a href="<?= base_url('') ?>">
+                        <img src="<?= base_url('') ?>assets/images/logo/logo.png" alt="Logo">
+                        <img class="logo-fold" src="<?= base_url('') ?>assets/images/logo/logo-fold.png" alt="Logo">
+                    </a>
                 </div>
-                <!-- Sidebar -->
-                <div class="clearfix"></div>
+                <div class="logo logo-white">
+                    <a href="<?= base_url('') ?>">
+                        <img src="<?= base_url('') ?>assets/images/logo/logo-white.png" alt="Logo">
+                        <img class="logo-fold" src="<?= base_url('') ?>assets/images/logo/logo-fold-white.png" alt="Logo">
+                    </a>
+                </div>
+                <div class="nav-wrap">
+                    <ul class="nav-left">
+                        <li class="desktop-toggle">
+                            <a href="javascript:void(0);">
+                                <i class="anticon"></i>
+                            </a>
+                        </li>
+                        <li class="mobile-toggle">
+                            <a href="javascript:void(0);">
+                                <i class="anticon"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav-right">
 
+                        <li class="dropdown dropdown-animated scale-left">
+                            <div class="pointer" data-toggle="dropdown">
+                                <div class="avatar avatar-image  m-h-10 m-r-15">
+                                    <img src="" alt="">
+                                </div>
+                            </div>
+                            <div class="p-b-15 p-t-20 dropdown-menu pop-profile">
+                                <div class="p-h-20 p-b-15 m-b-10 border-bottom">
+                                    <div class="d-flex m-r-50">
+                                        <div class="avatar avatar-lg avatar-image">
+                                            <img src="" alt="">
+                                        </div>
+                                        <div class="m-l-10">
+                                            <p class="m-b-0 text-dark font-weight-semibold">Marshall Nichols</p>
+                                            <p class="m-b-0 opacity-07">UI/UX Desinger</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="<?= base_url('Auth/logout') ?>" class="dropdown-item d-block p-h-15 p-v-10">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <i class="anticon opacity-04 font-size-16 anticon-logout"></i>
+                                            <span class="m-l-10">Logout</span>
+                                        </div>
+                                        <i class="anticon font-size-10 anticon-right"></i>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <!-- Sidebar -left -->
+            <!-- Header END -->
 
-        </div>
+            <!-- Side Nav START -->
+            <div class="side-nav">
+                <div class="side-nav-inner">
+                    <ul class="side-nav-menu scrollable">
+                        <li class="nav-item dropdown">
+                            <a href="<?= base_url('Dashboard') ?>">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-dashboard"></i>
+                                </span>
+                                <span class="title">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="<?= base_url('Pengguna') ?>">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-user"></i>
+                                </span>
+                                <span class="title">Kelola Pengguna</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="<?= base_url('Guru') ?>">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-team"></i>
+                                </span>
+                                <span class="title">Kelola Guru</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="<?= base_url('Kriteria') ?>">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-hdd"></i>
+                                </span>
+                                <span class="title">Kelola Kriteria</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="<?= base_url('Kompetensi') ?>">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-bars"></i>
+                                </span>
+                                <span class="title">Kelola Kompetensi</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="<?= base_url('Kuesioner') ?>">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-read"></i>
+                                </span>
+                                <span class="title">Kuesioner</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="<?= base_url('Keputusan') ?>">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-switcher"></i>
+                                </span>
+                                <span class="title">Keputusan</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="<?= base_url('Laporan') ?>">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-file-pdf"></i>
+                                </span>
+                                <span class="title">Laporan</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="<?= base_url('Auth/logout') ?>">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-logout"></i>
+                                </span>
+                                <span class="title">Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Side Nav END -->
+
+            <!-- Page Container START -->
+            <div class="page-container">
