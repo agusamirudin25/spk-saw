@@ -37,7 +37,7 @@ class Auth
                 if (password_verify($password, $user->password)) :
                     $nipPengguna = $user->nip;
                     $nama = $user->nama_lengkap;
-                    $type = $user->tipe;
+                    $type = $user->role;
                     
                     $data['title'] = 'Login Success';
                     $data['msg'] = 'Data ditemukan';
