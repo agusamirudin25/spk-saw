@@ -2,6 +2,7 @@
 
 namespace App\Classes;
 
+use DateTime;
 
 header('Access-Control-Allow-Origin:*');
 
@@ -60,6 +61,65 @@ class Guru
         $pendidikan      = $input['pendidikan'];
         $pangkat_golongan = $input['pangkat_golongan'];
         $tanggal_masuk   = $input['tanggal_masuk'];
+
+        // set kriteria K3 Lama Bekerja
+        $tgl_masuk = str_replace('/', '-', $tanggal_masuk);
+        $tgl_masuk = date('Y-m-d', strtotime($tgl_masuk));
+        $tgl_masuk = new DateTime($tgl_masuk);
+        $now = new DateTime();
+        $diff = $now->diff($tgl_masuk);
+        $lama_bekerja = $diff->y;
+
+        // set kriteria K4 Pendidikan Terakhir
+        $pendidikan_terakhir = [
+            'D3' => '1',
+            'D4' => '2',
+            'S1' => '3',
+            'S2' => '4',
+            'S3' => '5'
+        ];
+
+        // cek t_penilaian
+        $cek_penilaian_k3 = $this->_db->other_query("SELECT * FROM t_penilaian WHERE kode_alternatif = '$kode_alternatif' AND kode_kriteria = 'K3'");
+        $cek_penilaian_k4 = $this->_db->other_query("SELECT * FROM t_penilaian WHERE kode_alternatif = '$kode_alternatif' AND kode_kriteria = 'K4'");
+        if($cek_penilaian_k3){
+            $update_penilaian_k3 = $this->_db->edit("
+                UPDATE t_penilaian SET
+                    nilai = '$lama_bekerja'
+                WHERE kode_alternatif = '$kode_alternatif' AND kode_kriteria = 'K3'
+            ");
+        }else{
+            $insert_penilaian_k3 = $this->_db->insert("
+                INSERT INTO t_penilaian (
+                    kode_alternatif,
+                    kode_kriteria,
+                    nilai
+                ) VALUES (
+                    '$kode_alternatif',
+                    'K3',
+                    '$lama_bekerja'
+                )
+            ");
+        }
+        if($cek_penilaian_k4){
+            $update_penilaian_k4 = $this->_db->edit("
+                UPDATE t_penilaian SET
+                    nilai = '$pendidikan_terakhir[$pendidikan]'
+                WHERE kode_alternatif = '$kode_alternatif' AND kode_kriteria = 'K4'
+            ");
+        }else{
+            $insert_penilaian_k4 = $this->_db->insert("
+                INSERT INTO t_penilaian (
+                    kode_alternatif,
+                    kode_kriteria,
+                    nilai
+                ) VALUES (
+                    '$kode_alternatif',
+                    'K4',
+                    '$pendidikan_terakhir[$pendidikan]'
+                )
+            ");
+        }
 
         // insert t_guru
         $insert = $this->_db->insert("
@@ -123,6 +183,66 @@ class Guru
         $pangkat_golongan = $input['pangkat_golongan'];
         $tanggal_masuk    = $input['tanggal_masuk'];
 
+        // set kriteria K3 Lama Bekerja
+        $tgl_masuk = str_replace('/', '-', $tanggal_masuk);
+        $tgl_masuk = date('Y-m-d', strtotime($tgl_masuk));
+        $tgl_masuk = new DateTime($tgl_masuk);
+        $now = new DateTime();
+        $diff = $now->diff($tgl_masuk);
+        $lama_bekerja = $diff->y;
+
+        // set kriteria K4 Pendidikan Terakhir
+        $pendidikan_terakhir = [
+            'D3' => '1',
+            'D4' => '2',
+            'S1' => '3',
+            'S2' => '4',
+            'S3' => '5'
+        ];
+
+        // cek t_penilaian
+        $cek_penilaian_k3 = $this->_db->other_query("SELECT * FROM t_penilaian WHERE kode_alternatif = '$kode_alternatif' AND kode_kriteria = 'K3'");
+        $cek_penilaian_k4 = $this->_db->other_query("SELECT * FROM t_penilaian WHERE kode_alternatif = '$kode_alternatif' AND kode_kriteria = 'K4'");
+        if($cek_penilaian_k3){
+            $update_penilaian_k3 = $this->_db->edit("
+                UPDATE t_penilaian SET
+                    nilai = '$lama_bekerja'
+                WHERE kode_alternatif = '$kode_alternatif' AND kode_kriteria = 'K3'
+            ");
+        }else{
+            $insert_penilaian_k3 = $this->_db->insert("
+                INSERT INTO t_penilaian (
+                    kode_alternatif,
+                    kode_kriteria,
+                    nilai
+                ) VALUES (
+                    '$kode_alternatif',
+                    'K3',
+                    '$lama_bekerja'
+                )
+            ");
+        }
+        if($cek_penilaian_k4){
+            $update_penilaian_k4 = $this->_db->edit("
+                UPDATE t_penilaian SET
+                    nilai = '$pendidikan_terakhir[$pendidikan]'
+                WHERE kode_alternatif = '$kode_alternatif' AND kode_kriteria = 'K4'
+            ");
+        }else{
+            $insert_penilaian_k4 = $this->_db->insert("
+                INSERT INTO t_penilaian (
+                    kode_alternatif,
+                    kode_kriteria,
+                    nilai
+                ) VALUES (
+                    '$kode_alternatif',
+                    'K4',
+                    '$pendidikan_terakhir[$pendidikan]'
+                )
+            ");
+        }
+
+
         // update t_guru
         $update = $this->_db->edit("
             UPDATE t_guru SET
@@ -137,14 +257,9 @@ class Guru
             WHERE kode_alternatif = '$kode_alternatif'
         ");
 
-        if ($update) {
-            $res['status'] = 1;
-            $res['msg'] = "Data berhasil diubah";
-            $res['page'] = "guru";
-        } else {
-            $res['status'] = 0;
-            $res['msg'] = "Data gagal diubah";
-        }
+        $res['status'] = 1;
+        $res['msg'] = "Data berhasil diubah";
+        $res['page'] = "guru";
 
         echo json_encode($res);
     }
