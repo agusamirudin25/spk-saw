@@ -54,18 +54,14 @@
                         <li class="dropdown dropdown-animated scale-left">
                             <div class="pointer" data-toggle="dropdown">
                                 <div class="avatar avatar-image  m-h-10 m-r-15">
-                                    <img src="" alt="">
+                                    <img src="<?= base_url() ?>assets/images/avatars/thumb-1.jpg" alt="">
                                 </div>
                             </div>
                             <div class="p-b-15 p-t-20 dropdown-menu pop-profile">
                                 <div class="p-h-20 p-b-15 m-b-10 border-bottom">
                                     <div class="d-flex m-r-50">
-                                        <div class="avatar avatar-lg avatar-image">
-                                            <img src="" alt="">
-                                        </div>
                                         <div class="m-l-10">
-                                            <p class="m-b-0 text-dark font-weight-semibold">Marshall Nichols</p>
-                                            <p class="m-b-0 opacity-07">UI/UX Desinger</p>
+                                            <p class="m-b-0 text-dark font-weight-semibold"><?= session_get('nama') ?></p>
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +71,6 @@
                                             <i class="anticon opacity-04 font-size-16 anticon-logout"></i>
                                             <span class="m-l-10">Logout</span>
                                         </div>
-                                        <i class="anticon font-size-10 anticon-right"></i>
                                     </div>
                                 </a>
                             </div>
@@ -97,6 +92,7 @@
                                 <span class="title">Dashboard</span>
                             </a>
                         </li>
+                        <?php if(session_get('type') == 1) : ?>
                         <li class="nav-item dropdown">
                             <a href="<?= base_url('Pengguna') ?>">
                                 <span class="icon-holder">
@@ -129,14 +125,16 @@
                                 <span class="title">Kelola Kompetensi</span>
                             </a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a href="<?= base_url('Kuesioner') ?>">
-                                <span class="icon-holder">
-                                    <i class="anticon anticon-read"></i>
-                                </span>
-                                <span class="title">Kuesioner</span>
-                            </a>
-                        </li>
+                        <?php else : ?>
+                            <li class="nav-item dropdown">
+                                <a href="<?= base_url('Kuesioner') ?>">
+                                    <span class="icon-holder">
+                                        <i class="anticon anticon-read"></i>
+                                    </span>
+                                    <span class="title">Kuesioner</span>
+                                </a>
+                            </li>
+                        <?php endif; ?>
                         <li class="nav-item dropdown">
                             <a href="<?= base_url('Keputusan') ?>">
                                 <span class="icon-holder">

@@ -13,7 +13,7 @@
                             <i class="anticon anticon-user"></i>
                         </div>
                         <div class="m-l-15">
-                            <h2 class="m-b-0">3,685</h2>
+                            <h2 class="m-b-0"><?= $total_pengguna ?></h2>
                             <p class="m-b-0 text-muted">Pengguna</p>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                             <i class="anticon anticon-idcard"></i>
                         </div>
                         <div class="m-l-15">
-                            <h2 class="m-b-0">$23,523</h2>
+                            <h2 class="m-b-0"><?= $total_alternatif ?></h2>
                             <p class="m-b-0 text-muted">Alternatif</p>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                             <i class="anticon anticon-book"></i>
                         </div>
                         <div class="m-l-15">
-                            <h2 class="m-b-0">+ 17.21%</h2>
+                            <h2 class="m-b-0"><?= $total_kriteria ?></h2>
                             <p class="m-b-0 text-muted">Kriteria</p>
                         </div>
                     </div>

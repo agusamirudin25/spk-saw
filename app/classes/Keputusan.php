@@ -127,4 +127,67 @@ class Keputusan
         $res['page'] = "Keputusan";
         echo json_encode($res);
     }
+
+    public function buat_keputusan()
+    {
+        $waktuAwal = microtime(true);
+        $penilaian = $this->_db->getAll('v_penilaian');
+        $kriteria = $this->_db->getAll('t_kriteria');
+
+        $nilai_max = [];
+        $nilai_min = [];
+        // PROSES NORMALISASI
+        foreach ($penilaian as $key_penilaian => $value_penilaian) {
+            foreach ($kriteria as $key => $row) {
+                $nilai_max = $this->_db->other_query("SELECT MAX({$row['kode_kriteria']}) AS max FROM v_penilaian")->max;
+                $nilai_min = $this->_db->other_query("SELECT MIN({$row['kode_kriteria']}) AS min FROM v_penilaian")->min;
+                // pretty($row['tipe'] == 'benefit' ? ($value_penilaian[$row['kode_kriteria']] . '/' . $nilai_max) : ($nilai_min . '/' . $value_penilaian[$row['kode_kriteria']]), 0);
+                $normalisasi[$value_penilaian['kd_alternatif']][$row['kode_kriteria']] = $row['tipe'] == 'benefit' ? ($value_penilaian[$row['kode_kriteria']] / $nilai_max) : ($nilai_min / $value_penilaian[$row['kode_kriteria']]);
+            }
+        }
+
+        // menentukan bobot kriteria
+        $totalBobot = $this->_db->other_query("SELECT SUM(bobot) AS total FROM t_kriteria")->total;
+        foreach ($kriteria as $key => $row) {
+            $bobot[$row['kode_kriteria']] = $row['bobot'] / $totalBobot;
+        }
+        // hasil perangkingan
+        foreach ($normalisasi as $key => $row) {
+            $hasil[$key] = 0;
+            foreach ($row as $key_perankingan => $row_perankingan) {
+                $hasil[$key] += $row_perankingan * $bobot[$key_perankingan];
+            }
+        }
+        // insert hasil to t_hasil
+        foreach ($hasil as $key => $row) {
+            // cek data
+            $cek = $this->_db->other_query("SELECT * FROM t_hasil WHERE kode_alternatif = '$key'");
+            if ($cek) {
+                $this->_db->edit("UPDATE t_hasil SET hasil = '$row' WHERE kode_alternatif = '$key'");
+            } else {
+                $this->_db->insert("INSERT INTO t_hasil (kode_alternatif, hasil) VALUES ('$key', '$row')");
+            }
+        }
+        arsort($hasil);
+        $hasil_saw = [];
+        foreach ($hasil as $key => $hasilAkhir) {
+            $nama_lengkap = $this->_db->other_query("SELECT * FROM t_guru WHERE kode_alternatif = '$key'");
+            $hasil_saw[] = [
+                'kode' => $key,
+                'nama_lengkap' => $nama_lengkap->nama_lengkap,
+                'nilai' => $hasilAkhir,
+                'persen' => round($hasilAkhir * 100, 2) . '%'
+            ];
+        }
+        $waktuAkhir = microtime(true);
+        //waktu eksekusi mabac
+        $waktuTempuh = $waktuAkhir - $waktuAwal;
+
+        $data['hasil'] = $hasil_saw;
+        // pretty($data['hasil'], 1);
+        $data['waktu'] = $waktuTempuh;
+        view('layouts/_head');
+        view('keputusan/hasil', $data);
+        view('layouts/_foot');
+    }
 }
