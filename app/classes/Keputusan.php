@@ -23,7 +23,7 @@ class Keputusan
         $penilaian = $this->_db->getAll('v_penilaian');
         $tempData = [];
         foreach ($penilaian as $key => $value) {
-            if ($value['K2'] == NULL || $value['K1'] == NULL) {
+            if ($value['K1'] == NULL || $value['K2'] == NULL || $value['K3'] == NULL || $value['K4'] == NULL || $value['K5'] == NULL) {
                 $tempData[] = [
                     'kode'   => $value['kd_alternatif'],
                     'nama'   => $value['nama_lengkap'],
@@ -57,13 +57,15 @@ class Keputusan
     {
         $data['guru'] = $this->_db->other_query("SELECT * FROM t_guru WHERE kode_alternatif = '$kode_alternatif'");
         $data['kriteria'] = $this->_db->getAll('t_kriteria');
-        $nilai_k2 = $this->_db->other_query("SELECT * FROM t_penilaian WHERE kode_alternatif = '$kode_alternatif' AND kode_kriteria = 'K2'");
-        if ($nilai_k2) {
-            $data['nilai_k2'] = (float) $nilai_k2->nilai;
-        } else {
-            $data['nilai_k2'] = 0;
+        $nilai = $this->_db->other_query("SELECT * FROM t_penilaian WHERE kode_alternatif = '$kode_alternatif'", 2);
+        $tempNilai = [];
+        foreach ($nilai as $key => $value) {
+            $tempNilai[$value['kode_kriteria']] = (float) $value['nilai'];
         }
-        // pretty($data);
+        $data['nilai'] = $tempNilai;
+        $data['arrKriteria'] = [
+            'K2', 'K3', 'K4'
+        ];
         view('layouts/_head');
         view('keputusan/tambah_data', $data);
         view('layouts/_foot');
@@ -90,7 +92,9 @@ class Keputusan
     {
         $data['keputusan'] = $this->_db->other_query("SELECT * FROM v_penilaian WHERE kd_alternatif = '$kode'");
         $data['kriteria'] = $this->_db->other_query("SELECT * FROM t_kriteria", 2);
-        // pretty($data);
+        $data['arrKriteria'] = [
+            'K2', 'K3', 'K4'
+        ];
         view('layouts/_head');
         view('keputusan/ubah_data', $data);
         view('layouts/_foot');

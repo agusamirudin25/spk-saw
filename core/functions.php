@@ -174,3 +174,22 @@ if(!function_exists('get_uri')) {
         return explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
     }
 }
+
+function is_in_array($array, $key, $key_value) : bool
+{
+    $within_array = false;
+    foreach( $array as $k=>$v ){
+      if( is_array($v) ){
+          $within_array = is_in_array($v, $key, $key_value);
+          if( $within_array == true ){
+              break;
+          }
+      } else {
+              if( $v == $key_value && $k == $key ){
+                      $within_array = true;
+                      break;
+              }
+      }
+    }
+    return $within_array;
+}

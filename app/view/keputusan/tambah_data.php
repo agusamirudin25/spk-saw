@@ -32,8 +32,8 @@
                                 <?php foreach ($kriteria as $row) : ?>
                                     <div class="form-group">
                                         <label><?= $row['kode_kriteria'] . ' - ' . $row['nama_kriteria'] ?></label>
-                                        <input type="number" class="form-control" id="<?= $row['kode_kriteria'] ?>" name="nilai[]" placeholder="Nilai Kriteria <?= $row['nama_kriteria'] ?>" required <?= ($row['kode_kriteria'] == 'K2' ? 'disabled' : null) ?> value="<?= ($row['kode_kriteria'] == 'K2') ? $nilai_k2 : 0 ?>">
-                                        <?php if ($row['kode_kriteria'] != 'K2') : ?>
+                                        <input type="number" class="form-control" id="<?= $row['kode_kriteria'] ?>" name="nilai[]" placeholder="Nilai Kriteria <?= $row['nama_kriteria'] ?>" required <?= in_array($row['kode_kriteria'], $arrKriteria) ? 'disabled' : null ?> value="<?= in_array($row['kode_kriteria'], $arrKriteria) ? $nilai[$row['kode_kriteria']] : 0 ?>">
+                                        <?php if (!in_array($row['kode_kriteria'], $arrKriteria)) : ?>
                                             <input type="hidden" name="kd_kriteria[]" value="<?= $row['kode_kriteria'] ?>">
                                         <?php endif; ?>
                                     </div>
