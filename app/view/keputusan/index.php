@@ -50,6 +50,11 @@
                     <tfoot>
                 </table>
             </div>
+            <div class="row m-t-25">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <a href="<?= url('keputusan/buat_keputusan') ?>" class="btn btn-primary">Buat Keputusan</a>
+                </div>
+            </div>
 
         </div>
     </div>
