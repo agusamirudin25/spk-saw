@@ -10,6 +10,16 @@ header('Access-Control-Allow-Origin:*');
 class Guru
 {
     protected $_db;
+    protected $kode_alternatif;
+    protected $nip;
+    protected $nama_lengkap;
+    protected $jenis_kelamin;
+    protected $tempat_lahir;
+    protected $tanggal_lahir;
+    protected $pendidikan;
+    protected $pangkat_golongan;
+    protected $tanggal_masuk;
+
     public function __construct()
     {
         $this->_db = new Database();
@@ -61,6 +71,16 @@ class Guru
         $pendidikan      = $input['pendidikan'];
         $pangkat_golongan = $input['pangkat_golongan'];
         $tanggal_masuk   = $input['tanggal_masuk'];
+        
+        // validasi nip apakah sudah ada atau belum
+        $cek_nip = $this->_db->other_query("SELECT * FROM t_guru WHERE nip = '$nip'", 1);
+        if ($cek_nip) {
+            $res['status'] = 0;
+            $res['msg'] = "Data Guru gagal ditambahkan. NIP sudah ada di sistem";
+            echo json_encode($res);
+            return false;
+            die; 
+        }
 
         // set kriteria K3 Lama Bekerja
         $tgl_masuk = str_replace('/', '-', $tanggal_masuk);

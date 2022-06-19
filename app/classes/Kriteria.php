@@ -9,6 +9,11 @@ header('Access-Control-Allow-Origin:*');
 class Kriteria
 {
     protected $_db;
+    protected $kode_kriteria;
+    protected $nama_kriteria;
+    protected $tipe;
+    protected $bobot;
+    
     public function __construct()
     {
         $this->_db = new Database();
@@ -52,6 +57,16 @@ class Kriteria
         $nama_kriteria = $input['nama_kriteria'];
         $tipe = $input['tipe'];
         $bobot = $input['bobot'];
+
+        // validasi nama_kriteria apakah sudah ada atau belum
+        $cek_nama_kriteria = $this->_db->other_query("SELECT * FROM t_kriteria WHERE nama_kriteria = '$nama_kriteria'", 1);
+        if ($cek_nama_kriteria) {
+            $res['status'] = 0;
+            $res['msg'] = "Data kriteria gagal ditambahkan. Nama kriteria sudah ada di sistem";
+            echo json_encode($res);
+            return false;
+            die; 
+        }
 
         // insert t_kriteria
         $insert = $this->_db->insert("

@@ -9,6 +9,8 @@ header('Access-Control-Allow-Origin:*');
 class Kompetensi
 {
     protected $_db;
+    protected $kode_kompetensi;
+    protected $kompetensi;
     public function __construct()
     {
         $this->_db = new Database();

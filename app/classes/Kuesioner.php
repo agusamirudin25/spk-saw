@@ -9,6 +9,10 @@ header('Access-Control-Allow-Origin:*');
 class Kuesioner
 {
     protected $_db;
+    protected $kode_alternatif;
+    protected $kode_kompetensi;
+    protected $nilai;
+    
     public function __construct()
     {
         $this->_db = new Database();
@@ -114,21 +118,6 @@ class Kuesioner
         $res['msg'] = "Data kuesioner berhasil diubah";
         $res['page'] = "kuesioner";
 
-        echo json_encode($res);
-    }
-    public function hapus_kompetensi()
-    {
-        $input = post();
-        $id = $input['id'];
-        $delete = $this->_db->delete('t_kompetensi', 'kode_kompetensi', "'" . $id . "'");
-        if ($delete) {
-            $res['status'] = 1;
-            $res['msg'] = "Data berhasil dihapus";
-            $res['page'] = "kompetensi";
-        } else {
-            $res['status'] = 0;
-            $res['msg'] = "Data gagal dihapus";
-        }
         echo json_encode($res);
     }
 }

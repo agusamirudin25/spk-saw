@@ -9,6 +9,12 @@ header('Access-Control-Allow-Origin:*');
 class Pengguna
 {
     protected $_db;
+    protected $nip;
+    protected $nama_lengkap;
+    protected $jabatan;
+    protected $role;
+    protected $password;
+
     public function __construct()
     {
         $this->_db = new Database();

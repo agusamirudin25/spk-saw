@@ -32,7 +32,7 @@ class Laporan
         $pdf = new \FPDF();
         $pdf->AddPage();
         $pdf->SetFont('Arial', 'B', 16);
-        // $pdf->Image(FCPATH . 'assets/images/kop.png', -2, -3, 220);
+        $pdf->Image(FCPATH . 'assets/images/kop.png', -2, -3, 220);
         $pdf->setY(60);
         $pdf->Cell(200, 10, 'LAPORAN HASIL PENILAIAN KINERJA GURU', 0, 1, 'C');
 
@@ -54,6 +54,23 @@ class Laporan
             $pdf->Cell(45, 10, $row['hasil'], 1, 0, 'C');
             $pdf->Cell(40, 10, round($row['hasil'] * 100, 2)  . '%', 1, 1, 'C');
         }
+        // tambah waktu dan tanda tangan
+        $pdf->setXY(150, 200);
+        $pdf->SetFont('Times', '', 12);
+        $tanggalSekarang = tgl_indo(date('Y-m-d'));
+        $pdf->Cell(10, 5, "Karawang, {$tanggalSekarang}", 0, 1);
+        $pdf->setXY(150, 206);
+        $pdf->Cell(10, 5, "Kepala Sekolah", 0, 1);
+        $pdf->setXY(150, 212);
+        $pdf->Cell(10, 5, "", 0, 1);
+        $pdf->setXY(150, 218);
+        $pdf->Cell(10, 5, "", 0, 1);
+        $pdf->setXY(150, 230);
+        $pdf->Cell(10, 5, "", 0, 1);
+        $pdf->setXY(150, 242);
+        $pdf->Cell(10, 5, "Drs. Wawan C. H., M.Pd.", 0, 1);
+        $pdf->setXY(150, 248);
+        $pdf->Cell(10, 5, "NIP. 19640505 198803 1 006", 0, 1);
         $pdf->Output();
     }
 }

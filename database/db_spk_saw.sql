@@ -11,7 +11,7 @@
  Target Server Version : 100406
  File Encoding         : 65001
 
- Date: 26/05/2022 00:04:09
+ Date: 19/06/2022 18:50:39
 */
 
 SET NAMES utf8mb4;
@@ -64,14 +64,14 @@ CREATE TABLE `t_hasil`  (
 -- ----------------------------
 -- Records of t_hasil
 -- ----------------------------
-INSERT INTO `t_hasil` VALUES (1, 'G1', '0.89761009644983', '2022-05-25 17:30:27', NULL);
+INSERT INTO `t_hasil` VALUES (1, 'G1', '0.94306464190437', '2022-05-25 17:30:27', '2022-06-19 18:49:32');
 INSERT INTO `t_hasil` VALUES (2, 'G2', '0.91228743416102', '2022-05-25 17:30:27', NULL);
-INSERT INTO `t_hasil` VALUES (3, 'G3', '0.77821212121212', '2022-05-25 17:30:27', NULL);
-INSERT INTO `t_hasil` VALUES (4, 'G4', '0.78490662836035', '2022-05-25 17:30:27', NULL);
-INSERT INTO `t_hasil` VALUES (5, 'G5', '0.81586319173678', '2022-05-25 17:30:27', NULL);
-INSERT INTO `t_hasil` VALUES (6, 'G6', '0.81993693139066', '2022-05-25 17:30:27', NULL);
-INSERT INTO `t_hasil` VALUES (7, 'G7', '0.82401067104453', '2022-05-25 17:30:27', NULL);
-INSERT INTO `t_hasil` VALUES (8, 'G8', '0.87581571926944', '2022-05-25 17:30:27', NULL);
+INSERT INTO `t_hasil` VALUES (3, 'G3', '0.82593939393939', '2022-05-25 17:30:27', '2022-06-19 18:49:32');
+INSERT INTO `t_hasil` VALUES (4, 'G4', '0.85763390108763', '2022-05-25 17:30:27', '2022-06-19 18:49:32');
+INSERT INTO `t_hasil` VALUES (5, 'G5', '0.87040864628224', '2022-05-25 17:30:27', '2022-06-19 18:49:32');
+INSERT INTO `t_hasil` VALUES (6, 'G6', '0.87448238593611', '2022-05-25 17:30:27', '2022-06-19 18:49:32');
+INSERT INTO `t_hasil` VALUES (7, 'G7', '0.87855612558999', '2022-05-25 17:30:27', '2022-06-19 18:49:32');
+INSERT INTO `t_hasil` VALUES (8, 'G8', '0.90308844654217', '2022-05-25 17:30:27', '2022-06-19 18:49:32');
 
 -- ----------------------------
 -- Table structure for t_kompetensi
@@ -122,9 +122,9 @@ CREATE TABLE `t_kriteria`  (
 -- ----------------------------
 INSERT INTO `t_kriteria` VALUES ('K1', 'Absensi', 'benefit', 2, '2022-05-23 21:24:20');
 INSERT INTO `t_kriteria` VALUES ('K2', 'Kompetensi', 'benefit', 3, '2022-05-23 21:24:51');
-INSERT INTO `t_kriteria` VALUES ('K3', 'Lama Bekerja', 'benefit', 2, '2022-05-23 21:25:05');
+INSERT INTO `t_kriteria` VALUES ('K3', 'Lama Bekerja', 'benefit', 1, '2022-05-23 21:25:05');
 INSERT INTO `t_kriteria` VALUES ('K4', 'Pendidikan', 'benefit', 2, '2022-05-23 21:25:17');
-INSERT INTO `t_kriteria` VALUES ('K5', 'Kreatifitas', 'benefit', 1, '2022-05-23 21:25:53');
+INSERT INTO `t_kriteria` VALUES ('K5', 'Kreatifitas', 'benefit', 2, '2022-05-23 21:25:53');
 
 -- ----------------------------
 -- Table structure for t_kuesioner
@@ -312,7 +312,7 @@ CREATE TABLE `t_penilaian`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_ktr`(`kode_kriteria`) USING BTREE,
   INDEX `fk_alt`(`kode_alternatif`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 59 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_penilaian
@@ -357,6 +357,8 @@ INSERT INTO `t_penilaian` VALUES (53, 'G7', 'K1', 297, 1, '2022-05-25 14:54:32',
 INSERT INTO `t_penilaian` VALUES (54, 'G7', 'K5', 4, 1, '2022-05-25 14:54:32', NULL);
 INSERT INTO `t_penilaian` VALUES (55, 'G8', 'K1', 300, 1, '2022-05-25 14:54:46', '2022-05-25 15:03:15');
 INSERT INTO `t_penilaian` VALUES (56, 'G8', 'K5', 4, 1, '2022-05-25 14:54:46', '2022-05-25 15:03:15');
+INSERT INTO `t_penilaian` VALUES (57, 'G9', 'K3', 20, 1, '2022-06-19 18:48:22', NULL);
+INSERT INTO `t_penilaian` VALUES (58, 'G9', 'K4', 4, 1, '2022-06-19 18:48:22', NULL);
 
 -- ----------------------------
 -- Table structure for t_role
