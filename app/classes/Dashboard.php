@@ -26,4 +26,13 @@ class Dashboard
         view('dashboard', $data);
         view('layouts/_foot');
     }
+
+    public function tentang()
+    {
+        $title = 'Sistem Pendukung Keputusan Penilaian Kinerja Guru';
+        $data['title'] = $title;
+        view('layouts/_head');
+        view('tentang', $data);
+        view('layouts/_foot');
+    }
 }

@@ -30,7 +30,9 @@
                                 <td><?= $row['role'] ?></td>
                                 <td>
                                     <a class="btn btn-primary waves-effect waves-light" href="<?= url('Pengguna/ubah_pengguna/' . $row['nip']) ?>" role="button">Ubah</a>
+                                    <?php if($row['nip'] != $_SESSION['nip']) : ?>
                                     <a class="btn btn-danger waves-effect waves-light" href="#" onclick="delete_data('<?= $row['nip'] ?>', 'Pengguna/hapus_pengguna')" role="button">Hapus</a>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -48,6 +48,11 @@
                                 <i class="anticon"></i>
                             </a>
                         </li>
+                        <li>
+                            <a href="<?= base_url('Dashboard/tentang') ?>" class="btn btn-success text-dark btn-sm">
+                                Tentang Aplikasi
+                            </a>
+                        </li>
                     </ul>
                     <ul class="nav-right">
 

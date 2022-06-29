@@ -49,6 +49,17 @@ class Kompetensi
         $kode_kompetensi = $input['kode_kompetensi'];
         $kompetensi = $input['kompetensi'];
         $created_by = $_SESSION['nip'];
+
+        // validasi kompetensi apakah sudah ada atau belum
+        $cek_kompetensi = $this->_db->other_query("SELECT * FROM t_kompetensi WHERE kompetensi = '$kompetensi'", 1);
+        if ($cek_kompetensi) {
+            $res['status'] = 0;
+            $res['msg'] = "Data gagal ditambahkan. Kompetensi sudah ada di sistem";
+            echo json_encode($res);
+            return false;
+            die; 
+        }
+  
         // insert t_kompetensi
         $insert = $this->_db->insert("
             INSERT INTO t_kompetensi (kode_kompetensi, kompetensi, created_by)
